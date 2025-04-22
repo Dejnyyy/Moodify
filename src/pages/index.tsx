@@ -151,13 +151,13 @@ export default function Home() {
                         onClick={() => setLanguage(language === "cs" ? "en" : "cs")}
                         className="px-4 py-2 rounded-full absolute top-4 left-4 bg-white/10 backdrop-blur border hover:bg-white/20 text-xs"
                       >
-                        {language === "cs" ? "🇨🇿 CS" : "🇬🇧 EN"}
+                        {language === "cs" ? "🇨🇿" : "🇬🇧"}
                       </button>
                       <button
                         onClick={() => setDarkMode(!darkMode)}
                         className="px-4 py-2 rounded-full absolute top-4 right-4 bg-white/10 backdrop-blur border hover:bg-white/20 text-xs"
                       >
-                        {darkMode ? "☀️ Light" : "🌙 Dark"}
+                        {darkMode ? "☀️" : "🌙"}
                       </button>
 
                       <h1 className="text-2xl font-semibold mb-4">Moodify</h1>
