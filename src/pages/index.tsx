@@ -20,11 +20,63 @@ const asciiArt: Record<string, string> = {
   smutný: "(╥_╥)",
   melancholický: "(._.)",
 };
+const moodSongs: Record<string, { title: string; artist: string; spotify: string; apple: string }[]> = {
+  energický: [
+    {
+      title: "Blinding Lights",
+      artist: "The Weeknd",
+      spotify: "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b",
+      apple: "https://music.apple.com/us/album/blinding-lights/1488406714?i=1488406717",
+    },
+    {
+      title: "Titanium",
+      artist: "David Guetta ft. Sia",
+      spotify: "https://open.spotify.com/track/61TgDF8aB75wPz9RIs7y3x",
+      apple: "https://music.apple.com/us/album/titanium-feat-sia/1440827103?i=1440827107",
+    },
+    // Add 3 more...
+  ],
+  pozitivní: [
+    {
+      title: "Sunroof",
+      artist: "Nicky Youre, dazy",
+      spotify: "https://open.spotify.com/track/1dGr1c8CrMLDpV6mPbImSI",
+      apple: "https://music.apple.com/us/album/sunroof/1622725531?i=1622725535",
+    },
+    // 4 more...
+  ],
+  klidný: [
+    {
+      title: "Snowman",
+      artist: "Sia",
+      spotify: "https://open.spotify.com/track/3Zwu2K0Qa5sT6teCCHPShP",
+      apple: "https://music.apple.com/us/album/snowman/1540357763?i=1540357765",
+    },
+  ],
+  smutný: [
+    {
+      title: "Someone Like You",
+      artist: "Adele",
+      spotify: "https://open.spotify.com/track/4kflIGfjdZJW4ot2ioixTB",
+      apple: "https://music.apple.com/us/album/someone-like-you/420075073?i=420075085",
+    },
+  ],
+  melancholický: [
+    {
+      title: "River Flows In You",
+      artist: "Yiruma",
+      spotify: "https://open.spotify.com/track/1Mxqyy3pSjf8kZZL4QVxS0",
+      apple: "https://music.apple.com/us/album/river-flows-in-you/290399963?i=290400001",
+    },
+  ],
+};
 
 export default function Home() {
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [result, setResult] = useState<{ mood: string; genre: string } | null>(null);
+  const [songIndex, setSongIndex] = useState(0);
+
   const [language, setLanguage] = useState<"cs" | "en">("cs");
   const [darkMode, setDarkMode] = useState(true);
   const [videoDone, setVideoDone] = useState(false);
@@ -192,7 +244,17 @@ export default function Home() {
                     <>
                       <h2 className="text-2xl font-bold mb-2">
                         {language === "cs" ? `Tvoje nálada je:` : `Your mood is:`}{" "}
-                        <span className="uppercase">{result.mood}</span>
+                        <span className="uppercase">
+                          {language === "cs"
+                            ? result.mood
+                            : {
+                                energický: "energetic",
+                                pozitivní: "positive",
+                                klidný: "calm",
+                                smutný: "sad",
+                                melancholický: "melancholic",
+                              }[result.mood]}
+                        </span>
                       </h2>
                       <p className="text-lg mb-4">
                         {language === "cs"
@@ -201,12 +263,6 @@ export default function Home() {
                         <b>🎧 {result.genre}</b>
                       </p>
                       <pre className="text-4xl">{asciiArt[result.mood]}</pre>
-                      <button
-                        onClick={restart}
-                        className="mt-6 px-5 py-2 bg-blue-400 hover:bg-blue-500 text-white rounded-full font-semibold"
-                      >
-                        {language === "cs" ? "Zkusit znovu" : "Try again"}
-                      </button>
                     </>
                   )}
                 </div>
