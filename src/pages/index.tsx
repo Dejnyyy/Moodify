@@ -149,13 +149,13 @@ export default function Home() {
                     <>
                       <button
                         onClick={() => setLanguage(language === "cs" ? "en" : "cs")}
-                        className="px-4 py-2 rounded-full absolute top-4 left-4 bg-white/10 backdrop-blur border hover:bg-white/20 text-xs"
+                        className="px-4 py-2 rounded-full absolute top-4 left-4 backdrop-blur hover:scale-125 duration-100 text-lg"
                       >
                         {language === "cs" ? "🇨🇿" : "🇬🇧"}
                       </button>
                       <button
                         onClick={() => setDarkMode(!darkMode)}
-                        className="px-4 py-2 rounded-full absolute top-4 right-4 bg-white/10 backdrop-blur border hover:bg-white/20 text-xs"
+                        className="px-4 py-2 rounded-full absolute top-4 right-4 backdrop-blur hover:scale-125 duration-100 text-lg"
                       >
                         {darkMode ? "☀️" : "🌙"}
                       </button>
@@ -171,7 +171,7 @@ export default function Home() {
                         </button>
                         <button
                           onClick={() => handleAnswer(false)}
-                          className="px-6 py-2 rounded-full bg-red-500 hover:bg-red-600 text-white font-semibold"
+                          className="px-6 py-2 rounded-full bg-black hover:bg-red-600 text-white font-semibold"
                         >
                           {language === "cs" ? "Ne" : "No"}
                         </button>
