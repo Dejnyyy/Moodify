@@ -149,13 +149,13 @@ export default function Home() {
                     <>
                       <button
                         onClick={() => setLanguage(language === "cs" ? "en" : "cs")}
-                        className="px-4 py-2 rounded-full absolute top-4 left-4 backdrop-blur hover:scale-125 duration-100 text-lg"
+                        className="rounded-full absolute top-5 left-6 cursor-pointer hover:scale-125 duration-100 text-lg"
                       >
                         {language === "cs" ? "🇨🇿" : "🇬🇧"}
                       </button>
                       <button
                         onClick={() => setDarkMode(!darkMode)}
-                        className="px-4 py-2 rounded-full absolute top-4 right-4 backdrop-blur hover:scale-125 duration-100 text-lg"
+                        className="rounded-full absolute top-5 right-6 cursor-pointer hover:scale-125 duration-100 text-lg"
                       >
                         {darkMode ? "☀️" : "🌙"}
                       </button>
