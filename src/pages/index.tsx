@@ -20,62 +20,10 @@ const asciiArt: Record<string, string> = {
   smutný: "(╥_╥)",
   melancholický: "(._.)",
 };
-const moodSongs: Record<string, { title: string; artist: string; spotify: string; apple: string }[]> = {
-  energický: [
-    {
-      title: "Blinding Lights",
-      artist: "The Weeknd",
-      spotify: "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b",
-      apple: "https://music.apple.com/us/album/blinding-lights/1488406714?i=1488406717",
-    },
-    {
-      title: "Titanium",
-      artist: "David Guetta ft. Sia",
-      spotify: "https://open.spotify.com/track/61TgDF8aB75wPz9RIs7y3x",
-      apple: "https://music.apple.com/us/album/titanium-feat-sia/1440827103?i=1440827107",
-    },
-    // Add 3 more...
-  ],
-  pozitivní: [
-    {
-      title: "Sunroof",
-      artist: "Nicky Youre, dazy",
-      spotify: "https://open.spotify.com/track/1dGr1c8CrMLDpV6mPbImSI",
-      apple: "https://music.apple.com/us/album/sunroof/1622725531?i=1622725535",
-    },
-    // 4 more...
-  ],
-  klidný: [
-    {
-      title: "Snowman",
-      artist: "Sia",
-      spotify: "https://open.spotify.com/track/3Zwu2K0Qa5sT6teCCHPShP",
-      apple: "https://music.apple.com/us/album/snowman/1540357763?i=1540357765",
-    },
-  ],
-  smutný: [
-    {
-      title: "Someone Like You",
-      artist: "Adele",
-      spotify: "https://open.spotify.com/track/4kflIGfjdZJW4ot2ioixTB",
-      apple: "https://music.apple.com/us/album/someone-like-you/420075073?i=420075085",
-    },
-  ],
-  melancholický: [
-    {
-      title: "River Flows In You",
-      artist: "Yiruma",
-      spotify: "https://open.spotify.com/track/1Mxqyy3pSjf8kZZL4QVxS0",
-      apple: "https://music.apple.com/us/album/river-flows-in-you/290399963?i=290400001",
-    },
-  ],
-};
-
 export default function Home() {
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [result, setResult] = useState<{ mood: string; genre: string } | null>(null);
-  const [songIndex, setSongIndex] = useState(0);
 
   const [language, setLanguage] = useState<"cs" | "en">("cs");
   const [darkMode, setDarkMode] = useState(true);
@@ -113,12 +61,6 @@ export default function Home() {
     if (s >= -1) return { mood: "klidný", genre: language === "cs" ? "Lo-fi/Chillstep" : "Lo-fi/Chillstep" };
     if (s >= -5) return { mood: "smutný", genre: language === "cs" ? "Akustické balady" : "Acoustic ballads" };
     return { mood: "melancholický", genre: language === "cs" ? "Instrumentální klavír" : "Instrumental piano" };
-  };
-
-  const restart = () => {
-    setCurrent(0);
-    setScore(0);
-    setResult(null);
   };
 
   return (
@@ -171,7 +113,7 @@ export default function Home() {
       {/* Main App UI */}
       <main
         className={clsx(
-          "min-h-screen text-center flex items-center justify-center px-4 py-10 transition-colors duration-500",
+          "min-h-screen text-center md:mt-0  mt-20 flex items-center justify-center px-4 py-10 transition-colors duration-500",
           darkMode
             ? "bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white"
             : "bg-gradient-to-r from-[#e0c3fc] via-[#8ec5fc] to-[#f9f9f9] text-gray-900"
@@ -281,6 +223,7 @@ export default function Home() {
                 <div className="">
                 {result && <SongRecommendation mood={result.mood} />}
                 </div>
+                <div className="w-full mx-auto text-center"><button className="w-full bg-black text-white hover:bg-white hover:text-black duration-300 transition-all font-bold  cursor-pointer py-2 hover: mt-7 rounded-3xl ">Restart</button></div>
               </div>
             </motion.div>
           </AnimatePresence>

@@ -65,8 +65,7 @@ export default function SongRecommendation({ mood }: { mood: string }) {
 
   const current = songs[index];
 
-  if (!current) return <p className="mt-6">Loading recommendations...</p>;
-
+  if (songs.length === 0) return <p className="mt-6">Loading recommendations...</p>;
   return (
     <div className="mt-8 rounded-xl z-50 p-4 bg-white/20 text-left">
       <p className="text-sm font-semibold mb-2">🎧 Song Suggestion</p>
@@ -77,14 +76,12 @@ export default function SongRecommendation({ mood }: { mood: string }) {
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"
       ></iframe>
-      {index < songs.length - 1 && (
-        <button
-          onClick={() => setIndex((i) => i + 1)}
-          className="mt-4 px-4 py-2 rounded-full bg-black/40 hover:bg-gray-800/80 text-white"
-        >
-          Next suggestion
-        </button>
-      )}
+       <button
+       onClick={() => setIndex((i) => (i + 1) % songs.length)}
+       className="mt-4 px-4 py-2 rounded-full bg-gray-700 hover:bg-gray-800 text-white"
+     >
+       Next
+     </button>
     </div>
   );
 }
