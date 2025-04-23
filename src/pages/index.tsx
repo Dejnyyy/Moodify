@@ -113,7 +113,7 @@ export default function Home() {
       {/* Main App UI */}
       <main
         className={clsx(
-          "min-h-screen text-center md:mt-0  mt-20 flex items-center justify-center px-4 py-10 transition-colors duration-500",
+          "min-h-screen text-center md:mt-0  pt-32 flex items-center justify-center px-4 py-10 transition-colors duration-500",
           darkMode
             ? "bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white"
             : "bg-gradient-to-r from-[#e0c3fc] via-[#8ec5fc] to-[#f9f9f9] text-gray-900"
