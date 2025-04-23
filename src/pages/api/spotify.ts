@@ -1,6 +1,10 @@
 // pages/api/spotify.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 
+interface SpotifyArtist {
+    name: string;
+  }
+  
 const moodQueryMap: Record<string, string[]> = {
   energický: ["Blinding Lights", "Titanium", "Can't Stop the Feeling"],
   pozitivní: ["Sunroof", "Happy", "Walking on Sunshine"],
@@ -43,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (track) {
       results.push({
         name: track.name,
-        artist: track.artists.map((a: any) => a.name).join(", "),
+        artist: track.artists.map((a: SpotifyArtist) => a.name).join(", "),
         image: track.album.images[0].url,
         url: track.external_urls.spotify,
         embed: `https://open.spotify.com/embed/track/${track.id}`,
