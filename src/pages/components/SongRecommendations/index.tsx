@@ -9,79 +9,15 @@ interface Song {
   embed: string;
 }
 
-interface SpotifyTokenResponse {
-  access_token: string;
-  token_type: string;
-  expires_in: number;
-}
-
-interface SpotifySearchResponse {
-  tracks: {
-    items: Array<{
-      id: string;
-      name: string;
-      artists: { name: string }[];
-      album: { images: { url: string }[] };
-      external_urls: { spotify: string };
-    }>;
-  };
-}
-
-const moodQueryMap: Record<string, string[]> = {
-  energický: ["Blinding Lights", "Titanium", "Can't Stop the Feeling"],
-  pozitivní: ["Sunroof", "Happy", "Walking on Sunshine"],
-  klidný: ["Snowman", "Breathe", "Weightless"],
-  smutný: ["Someone Like You", "Let Her Go", "Fix You"],
-  melancholický: ["River Flows In You", "Comptine d'un autre été", "Nara"],
-};
-
 export default function SongRecommendation({ mood }: { mood: string }) {
   const [songs, setSongs] = useState<Song[]>([]);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
     const fetchSongs = async () => {
-      const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID!;
-      const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET!;
-
-      const authRes = await fetch("https://accounts.spotify.com/api/token", {
-        method: "POST",
-        headers: {
-          Authorization:
-            "Basic " + Buffer.from(`${clientId}:${clientSecret}`).toString("base64"),
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: "grant_type=client_credentials",
-      });
-
-      const auth: SpotifyTokenResponse = await authRes.json();
-      const token = auth.access_token;
-
-      const queries = moodQueryMap[mood] || [];
-
-      const results: Song[] = [];
-      for (const q of queries) {
-        const searchRes = await fetch(
-          `https://api.spotify.com/v1/search?q=${encodeURIComponent(q)}&type=track&limit=1`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        const search: SpotifySearchResponse = await searchRes.json();
-        const track = search.tracks?.items?.[0];
-        if (track) {
-          results.push({
-            name: track.name,
-            artist: track.artists.map((a) => a.name).join(", "),
-            image: track.album.images[0].url,
-            url: track.external_urls.spotify,
-            embed: `https://open.spotify.com/embed/track/${track.id}`,
-          });
-        }
-      }
-
-      setSongs(results);
+      const res = await fetch(`/api/spotify?mood=${encodeURIComponent(mood)}`);
+      const data = await res.json();
+      setSongs(data.songs || []);
     };
 
     fetchSongs();
