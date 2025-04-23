@@ -187,10 +187,9 @@ export default function Home() {
               transition={{ duration: 0.4 }}
             >
               <div className="relative">
-                <div className="absolute inset-0 rounded-xl p-[2px] animate-spin-slow z-0">
-                  <div className="w-full h-full rounded-xl" />
-                </div>
-
+              <div className="absolute inset-0 rounded-xl p-[2px] animate-spin-slow z-0 pointer-events-none">
+              <div className="w-full h-full rounded-xl" />
+            </div>
                 <div
                   className={clsx(
                     "relative z-10 rounded-xl p-6 backdrop-blur-md shadow-xl",

@@ -70,7 +70,6 @@ export default function SongRecommendation({ mood }: { mood: string }) {
   return (
     <div className="mt-8 rounded-xl z-50 p-4 bg-white/20 text-left">
       <p className="text-sm font-semibold mb-2">🎧 Song Suggestion</p>
-
       <iframe
         src={current.embed}
         className="mt-4 w-full rounded-xl"
@@ -78,11 +77,10 @@ export default function SongRecommendation({ mood }: { mood: string }) {
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"
       ></iframe>
-
       {index < songs.length - 1 && (
         <button
           onClick={() => setIndex((i) => i + 1)}
-          className="mt-4 px-4 py-1 rounded-full bg-gray-700 hover:bg-gray-800 text-white"
+          className="mt-4 px-4 py-2 rounded-full bg-black/40 hover:bg-gray-800/80 text-white"
         >
           Next suggestion
         </button>
