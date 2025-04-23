@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import clsx from "clsx";
-
+import SongRecommendation from "./components/SongRecommendations";
 const questions = [
   { cs: "Cítíš se energicky?", en: "Do you feel energetic?", value: 2 },
   { cs: "Chceš si spíš odpočinout?", en: "Would you rather relax?", value: -2 },
@@ -153,7 +153,7 @@ export default function Home() {
           muted
           loop
           autoPlay
-          className="fixed z-40 rounded-xl shadow-xl"
+          className="fixed rounded-xl pointer-events-none shadow-xl"
           initial={{ width: "100vw", height: "100vh", top: 0, left: 0 }}
           animate={{
             width: "240px",
@@ -194,7 +194,7 @@ export default function Home() {
                 <div
                   className={clsx(
                     "relative z-10 rounded-xl p-6 backdrop-blur-md shadow-xl",
-                    darkMode ? "bg-white/10 text-white" : "bg-white/80 text-black"
+                    darkMode ? "bg-white/10 text-white" : "bg-white/70 text-black"
                   )}
                 >
                   {!result ? (
@@ -255,6 +255,18 @@ export default function Home() {
                                 melancholický: "melancholic",
                               }[result.mood]}
                         </span>
+                        <button
+                        onClick={() => setLanguage(language === "cs" ? "en" : "cs")}
+                        className="rounded-full absolute top-5 left-6 cursor-pointer hover:scale-125 duration-100 text-lg"
+                      >
+                        {language === "cs" ? "🇨🇿" : "🇬🇧"}
+                      </button>
+                      <button
+                        onClick={() => setDarkMode(!darkMode)}
+                        className="rounded-full absolute top-5 right-6 cursor-pointer hover:scale-125 duration-100 text-lg"
+                      >
+                        {darkMode ? "☀️" : "🌙"}
+                      </button>
                       </h2>
                       <p className="text-lg mb-4">
                         {language === "cs"
@@ -265,6 +277,10 @@ export default function Home() {
                       <pre className="text-4xl">{asciiArt[result.mood]}</pre>
                     </>
                   )}
+                  
+                </div>
+                <div className="">
+                {result && <SongRecommendation mood={result.mood} />}
                 </div>
               </div>
             </motion.div>
