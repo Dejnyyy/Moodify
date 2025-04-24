@@ -1,4 +1,3 @@
-// pages/index.tsx
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import clsx from "clsx";
@@ -21,39 +20,61 @@ export default function Home() {
   const [language, setLanguage] = useState<"cs" | "en">("cs");
   const [darkMode, setDarkMode] = useState(true);
   const [videoDone, setVideoDone] = useState(false);
-
+  const [isMobile, setIsMobile] = useState(false);
+  
   const fullVideoRef = useRef<HTMLVideoElement | null>(null);
   const miniVideoRef = useRef<HTMLVideoElement | null>(null);
-
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(
-    typeof navigator !== "undefined" ? navigator.userAgent : ""
-  );
   useEffect(() => {
-    const video = fullVideoRef.current;
-    if (!video) return;
+    if (typeof navigator !== "undefined") {
+      const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      setIsMobile(mobile);
+      if (mobile) {
+        setVideoDone(true); // skip full video on phones
+      }
+    }
+  }, []);
   
-    video.playbackRate = 2; // 🔥 make intro 2x speed
-  
+  useEffect(() => {
+    if (isMobile) return;
+
+    const full = fullVideoRef.current;
+    const mini = miniVideoRef.current;
+
+    if (!full) return;
+
+    full.playbackRate = 2;
+
     const fallbackIfFails = () => {
       setTimeout(() => {
-        if (!video.readyState || video.readyState < 2) {
-          setVideoDone(true); // fallback if video fails
+        if (!full.readyState || full.readyState < 2) {
+          setVideoDone(true);
         }
       }, 3000);
     };
-  
-    video.onended = () => {
+
+    full.onended = () => {
       setVideoDone(true);
-      if (miniVideoRef.current) {
-        miniVideoRef.current.play();
-        miniVideoRef.current.playbackRate = 1; // ⏪ mini plays normal speed
-      }
+
+      setTimeout(() => {
+        if (mini) {
+          mini.play();
+          mini.playbackRate = 1;
+        }
+      }, 100);
     };
-  
-    video.onerror = fallbackIfFails;
+
+    full.onerror = fallbackIfFails;
     fallbackIfFails();
-  }, []);
-  
+
+    const interval = setInterval(() => {
+      if (full.readyState >= 2) {
+        full.playbackRate = 2;
+        clearInterval(interval);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [isMobile]);
 
   const handleAnswer = (yes: boolean) => {
     const value = questions[current].value;
@@ -79,6 +100,7 @@ export default function Home() {
 
   return (
     <>
+      {/* Fullscreen loading video (desktop only) */}
       <AnimatePresence>
         {!videoDone && !isMobile && (
           <motion.div
@@ -86,7 +108,7 @@ export default function Home() {
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+            className="fixed inset-0 z-50 bg-black flex items-center justify-center rounded-3xl"
           >
             <video
               ref={fullVideoRef}
@@ -94,12 +116,13 @@ export default function Home() {
               autoPlay
               muted
               playsInline
-              className="w-2/3 h-2/3 object-fit"
+              className="w-2/3 h-2/3 object-fit rounded-3xl"
             />
           </motion.div>
         )}
       </AnimatePresence>
 
+      {/* Floating mini video (all devices) */}
       {videoDone && (
         <motion.video
           ref={miniVideoRef}
@@ -125,7 +148,7 @@ export default function Home() {
 
       <main
         className={clsx(
-          "min-h-screen text-center md:mt-0 pt-32 flex items-center justify-center px-4 py-10 transition-colors duration-500",
+          "min-h-screen text-center pt-32 flex items-center justify-center px-4 py-10 transition-colors duration-500",
           darkMode
             ? "bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white"
             : "bg-gradient-to-r from-[#e0c3fc] via-[#8ec5fc] to-[#f9f9f9] text-gray-900"
