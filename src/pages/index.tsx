@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import clsx from "clsx";
 import SongRecommendation from "./components/SongRecommendations";
+
 const questions = [
   { cs: "Cítíš se energicky?", en: "Do you feel energetic?", value: 2 },
   { cs: "Chceš si spíš odpočinout?", en: "Would you rather relax?", value: -2 },
@@ -17,7 +18,6 @@ export default function Home() {
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [result, setResult] = useState<{ mood: string; genre: string } | null>(null);
-
   const [language, setLanguage] = useState<"cs" | "en">("cs");
   const [darkMode, setDarkMode] = useState(true);
   const [videoDone, setVideoDone] = useState(false);
@@ -25,14 +25,35 @@ export default function Home() {
   const fullVideoRef = useRef<HTMLVideoElement | null>(null);
   const miniVideoRef = useRef<HTMLVideoElement | null>(null);
 
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(
+    typeof navigator !== "undefined" ? navigator.userAgent : ""
+  );
   useEffect(() => {
-    if (fullVideoRef.current) {
-      fullVideoRef.current.onended = () => {
-        setVideoDone(true);
-        miniVideoRef.current?.play();
-      };
-    }
+    const video = fullVideoRef.current;
+    if (!video) return;
+  
+    video.playbackRate = 2; // 🔥 make intro 2x speed
+  
+    const fallbackIfFails = () => {
+      setTimeout(() => {
+        if (!video.readyState || video.readyState < 2) {
+          setVideoDone(true); // fallback if video fails
+        }
+      }, 3000);
+    };
+  
+    video.onended = () => {
+      setVideoDone(true);
+      if (miniVideoRef.current) {
+        miniVideoRef.current.play();
+        miniVideoRef.current.playbackRate = 1; // ⏪ mini plays normal speed
+      }
+    };
+  
+    video.onerror = fallbackIfFails;
+    fallbackIfFails();
   }, []);
+  
 
   const handleAnswer = (yes: boolean) => {
     const value = questions[current].value;
@@ -49,18 +70,17 @@ export default function Home() {
   };
 
   const calculateMood = (s: number) => {
-    if (s >= 6) return { mood: "energický", genre: language === "cs" ? "Electro/Pop" : "Electro/Pop" };
-    if (s >= 2) return { mood: "pozitivní", genre: language === "cs" ? "Indie/Rock" : "Indie/Rock" };
-    if (s >= -1) return { mood: "klidný", genre: language === "cs" ? "Lo-fi/Chillstep" : "Lo-fi/Chillstep" };
+    if (s >= 6) return { mood: "energický", genre: "Electro/Pop" };
+    if (s >= 2) return { mood: "pozitivní", genre: "Indie/Rock" };
+    if (s >= -1) return { mood: "klidný", genre: "Lo-fi/Chillstep" };
     if (s >= -5) return { mood: "smutný", genre: language === "cs" ? "Akustické balady" : "Acoustic ballads" };
     return { mood: "melancholický", genre: language === "cs" ? "Instrumentální klavír" : "Instrumental piano" };
   };
 
   return (
     <>
-      {/* Fullscreen loading video */}
       <AnimatePresence>
-        {!videoDone && (
+        {!videoDone && !isMobile && (
           <motion.div
             key="loading-video"
             initial={{ opacity: 1 }}
@@ -72,15 +92,14 @@ export default function Home() {
               ref={fullVideoRef}
               src="/moodify.mp4"
               autoPlay
-              className="w-2/3 h-2/3 object-fit"
               muted
               playsInline
+              className="w-2/3 h-2/3 object-fit"
             />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Mini floating video (shrunk) */}
       {videoDone && (
         <motion.video
           ref={miniVideoRef}
@@ -88,6 +107,7 @@ export default function Home() {
           muted
           loop
           autoPlay
+          playsInline
           className="fixed rounded-xl pointer-events-none shadow-xl"
           initial={{ width: "100vw", height: "100vh", top: 0, left: 0 }}
           animate={{
@@ -103,10 +123,9 @@ export default function Home() {
         />
       )}
 
-      {/* Main App UI */}
       <main
         className={clsx(
-          "min-h-screen text-center md:mt-0  pt-32 flex items-center justify-center px-4 py-10 transition-colors duration-500",
+          "min-h-screen text-center md:mt-0 pt-32 flex items-center justify-center px-4 py-10 transition-colors duration-500",
           darkMode
             ? "bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white"
             : "bg-gradient-to-r from-[#e0c3fc] via-[#8ec5fc] to-[#f9f9f9] text-gray-900"
@@ -122,9 +141,9 @@ export default function Home() {
               transition={{ duration: 0.4 }}
             >
               <div className="relative">
-              <div className="absolute inset-0 rounded-xl p-[2px] animate-spin-slow z-0 pointer-events-none">
-              <div className="w-full h-full rounded-xl" />
-            </div>
+                <div className="absolute inset-0 rounded-xl p-[2px] animate-spin-slow z-0 pointer-events-none">
+                  <div className="w-full h-full rounded-xl" />
+                </div>
                 <div
                   className={clsx(
                     "relative z-10 rounded-xl p-6 backdrop-blur-md shadow-xl",
@@ -189,32 +208,15 @@ export default function Home() {
                                 melancholický: "melancholic",
                               }[result.mood]}
                         </span>
-                        <button
-                        onClick={() => setLanguage(language === "cs" ? "en" : "cs")}
-                        className="rounded-full absolute top-5 left-6 cursor-pointer hover:scale-125 duration-100 text-lg"
-                      >
-                        {language === "cs" ? "🇨🇿" : "🇬🇧"}
-                      </button>
-                      <button
-                        onClick={() => setDarkMode(!darkMode)}
-                        className="rounded-full absolute top-5 right-6 cursor-pointer hover:scale-125 duration-100 text-lg"
-                      >
-                        {darkMode ? "☀️" : "🌙"}
-                      </button>
                       </h2>
                       <p className="text-lg mb-4">
-                        {language === "cs"
-                          ? `Doporučený žánr:`
-                          : `Recommended genre:`}{" "}
+                        {language === "cs" ? `Doporučený žánr:` : `Recommended genre:`}{" "}
                         <b>🎧 {result.genre}</b>
                       </p>
                     </>
                   )}
-                  
                 </div>
-                <div className="">
-                {result && <SongRecommendation mood={result.mood} />}
-                </div>
+                <div>{result && <SongRecommendation mood={result.mood} />}</div>
                 <button
                   onClick={() => {
                     setCurrent(0);
