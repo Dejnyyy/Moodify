@@ -13,13 +13,6 @@ const questions = [
   { cs: "Jsi dnes pozitivně naladěn/a?", en: "Are you feeling positive today?", value: 2 },
 ];
 
-const asciiArt: Record<string, string> = {
-  energický: "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧",
-  pozitivní: "(＾▽＾)",
-  klidný: "(◡‿◡✿)",
-  smutný: "(╥_╥)",
-  melancholický: "(._.)",
-};
 export default function Home() {
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
@@ -215,7 +208,6 @@ export default function Home() {
                           : `Recommended genre:`}{" "}
                         <b>🎧 {result.genre}</b>
                       </p>
-                      <pre className="text-4xl">{asciiArt[result.mood]}</pre>
                     </>
                   )}
                   
