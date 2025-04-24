@@ -191,18 +191,30 @@ export default function Home() {
                       <h1 className="text-2xl font-semibold mb-4">Moodify</h1>
                       <p className="text-lg mb-6">{questions[current][language]}</p>
                       <div className="flex justify-center gap-4">
-                        <button
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ type: "spring", stiffness: 200, damping: 15 }}
                           onClick={() => handleAnswer(true)}
-                          className="px-6 py-2 rounded-full bg-green-500 hover:bg-green-600 text-white font-semibold"
+                          className="px-6 py-2 rounded-full bg-gradient-to-tl from-purple-500 via-blue-800 to-cyan-400 hover:text-black hover:from-white hover:to-white hover:via-white text-white font-semibold"
                         >
                           {language === "cs" ? "Ano" : "Yes"}
-                        </button>
-                        <button
+                        </motion.button>
+                       <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ type: "spring", stiffness: 200, damping: 15 }}
                           onClick={() => handleAnswer(false)}
-                          className="px-6 py-2 rounded-full bg-black hover:bg-red-600 text-white font-semibold"
+                          className="px-6 py-2 rounded-full bg-black hover:bg-white hover:text-black text-white font-semibold"
                         >
                           {language === "cs" ? "Ne" : "No"}
-                        </button>
+                        </motion.button>
                       </div>
                       <div className="w-full mt-6 bg-gray-600/40 h-2 rounded">
                         <div
