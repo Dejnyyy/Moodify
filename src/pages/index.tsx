@@ -101,34 +101,26 @@ export default function Home() {
   return (
     <>
       {/* Fullscreen loading video (desktop only) */}
-      {!isMobile && (
-  <motion.video
-    ref={fullVideoRef}
-    src="/moodify.mp4"
-    autoPlay
-    muted
-    playsInline
-    loop={videoDone}
-    className="fixed rounded-xl pointer-events-none shadow-xl"
-    initial={{ width: "100vw", height: "100vh", top: 0, left: 0 }}
-    animate={
-      videoDone
-        ? {
-            width: "240px",
-            height: "170px",
-            top: "20px",
-            left: "50%",
-            x: "-50%",
-            y: 0,
-          }
-        : {}
-    }
-    transition={{ duration: 1.2, ease: "easeInOut" }}
-    style={{ objectFit: "cover", backgroundColor: "#000" }}
-    onEnded={() => setVideoDone(true)}
-  />
-)}
-
+      <AnimatePresence>
+        {!videoDone && !isMobile && (
+          <motion.div
+            key="loading-video"
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black flex items-center justify-center rounded-3xl"
+          >
+            <video
+              ref={fullVideoRef}
+              src="/moodify-fixed-ios.mp4"
+              autoPlay
+              muted
+              playsInline
+              className="w-2/3 h-2/3 object-fit rounded-3xl"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Floating mini video (all devices) */}
       {videoDone && (
