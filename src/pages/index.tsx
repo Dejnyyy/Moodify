@@ -240,16 +240,23 @@ export default function Home() {
                   )}
                 </div>
                 <div>{result && <SongRecommendation mood={result.mood} />}</div>
-                <button
+                <motion.button
                   onClick={() => {
                     setCurrent(0);
                     setScore(0);
                     setResult(null);
                   }}
-                  className="w-full bg-black text-white hover:bg-white hover:text-black duration-300 transition-all font-bold cursor-pointer py-2 mt-7 rounded-3xl"
+                  whileHover={{ scale: 1.05, backgroundColor: "#ffffff", color: "#000000" }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                  className="w-full bg-black text-white font-bold cursor-pointer py-2 mt-7 rounded-3xl shadow-lg"
                 >
                   Restart
-                </button>
+                </motion.button>
+
               </div>
             </motion.div>
           </AnimatePresence>
