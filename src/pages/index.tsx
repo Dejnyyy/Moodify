@@ -17,7 +17,7 @@ export default function Home() {
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [result, setResult] = useState<{ mood: string; genre: string } | null>(null);
-  const [language, setLanguage] = useState<"cs" | "en">("cs");
+  const [language, setLanguage] = useState<"cs" | "en">("en");
   const [darkMode, setDarkMode] = useState(true);
   const [videoDone, setVideoDone] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
