@@ -215,7 +215,16 @@ export default function Home() {
                 <div className="">
                 {result && <SongRecommendation mood={result.mood} />}
                 </div>
-                <div className="w-full mx-auto text-center"><button className="w-full bg-black text-white hover:bg-white hover:text-black duration-300 transition-all font-bold  cursor-pointer py-2 hover: mt-7 rounded-3xl ">Restart</button></div>
+                <button
+                  onClick={() => {
+                    setCurrent(0);
+                    setScore(0);
+                    setResult(null);
+                  }}
+                  className="w-full bg-black text-white hover:bg-white hover:text-black duration-300 transition-all font-bold cursor-pointer py-2 mt-7 rounded-3xl"
+                >
+                  Restart
+                </button>
               </div>
             </motion.div>
           </AnimatePresence>
