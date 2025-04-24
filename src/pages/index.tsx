@@ -126,7 +126,7 @@ export default function Home() {
       {videoDone && (
         <motion.video
           ref={miniVideoRef}
-          src="/moodify.mp4"
+          src="/moodify-fixed-ios.mp4"
           muted
           loop
           autoPlay
