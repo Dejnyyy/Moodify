@@ -199,7 +199,7 @@ export default function Home() {
                           exit={{ opacity: 0, y: -20 }}
                           transition={{ type: "spring", stiffness: 200, damping: 15 }}
                           onClick={() => handleAnswer(true)}
-                          className="px-6 py-2 rounded-full bg-gradient-to-tl from-purple-500 via-blue-800 to-cyan-400 hover:text-black hover:from-white hover:to-white hover:via-white text-white font-semibold"
+                          className="cursor-pointer px-6 py-2 rounded-full bg-gradient-to-tl from-purple-500 via-blue-800 to-cyan-400 hover:text-black hover:from-white hover:to-white hover:via-white text-white font-semibold"
                         >
                           {language === "cs" ? "Ano" : "Yes"}
                         </motion.button>
@@ -211,7 +211,7 @@ export default function Home() {
                           exit={{ opacity: 0, y: -20 }}
                           transition={{ type: "spring", stiffness: 200, damping: 15 }}
                           onClick={() => handleAnswer(false)}
-                          className="px-6 py-2 rounded-full bg-black hover:bg-white hover:text-black text-white font-semibold"
+                          className="cursor-pointer px-6 py-2 rounded-full bg-black hover:bg-white hover:text-black text-white font-semibold"
                         >
                           {language === "cs" ? "Ne" : "No"}
                         </motion.button>
@@ -264,7 +264,7 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                  className="w-full bg-black text-white font-bold cursor-pointer py-2 mt-7 rounded-3xl shadow-lg"
+                  className=" cursor-pointer w-full bg-black text-white font-bold py-2 mt-7 rounded-3xl shadow-lg"
                 >
                   Restart
                 </motion.button>

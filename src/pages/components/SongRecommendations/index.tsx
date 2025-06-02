@@ -40,7 +40,7 @@ export default function SongRecommendation({ mood }: { mood: string }) {
       ></iframe>
       <button
         onClick={() => setIndex((i) => (i + 1) % songs.length)}
-        className="mt-4 px-4 py-2 rounded-full bg-gray-700 hover:bg-gray-800 text-white"
+        className=" cursor-pointer mt-4 px-4 py-2 rounded-full bg-gray-700 hover:bg-gray-800 text-white"
       >
         Next
       </button>
