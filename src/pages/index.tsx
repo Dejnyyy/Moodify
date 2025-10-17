@@ -10,18 +10,24 @@ const questions = [
   { cs: "Cítíš se smutně?", en: "Do you feel sad?", value: -3 },
   { cs: "Cítíš se motivovaný/á?", en: "Do you feel motivated?", value: 2 },
   { cs: "Máš chuť na relax?", en: "Do you crave some relaxation?", value: -1 },
-  { cs: "Jsi dnes pozitivně naladěn/a?", en: "Are you feeling positive today?", value: 2 },
+  {
+    cs: "Jsi dnes pozitivně naladěn/a?",
+    en: "Are you feeling positive today?",
+    value: 2,
+  },
 ];
 
 export default function Home() {
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
-  const [result, setResult] = useState<{ mood: string; genre: string } | null>(null);
+  const [result, setResult] = useState<{ mood: string; genre: string } | null>(
+    null
+  );
   const [language, setLanguage] = useState<"cs" | "en">("en");
   const [darkMode, setDarkMode] = useState(true);
   const [videoDone, setVideoDone] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  
+
   const fullVideoRef = useRef<HTMLVideoElement | null>(null);
   const miniVideoRef = useRef<HTMLVideoElement | null>(null);
   useEffect(() => {
@@ -33,7 +39,7 @@ export default function Home() {
       }
     }
   }, []);
-  
+
   useEffect(() => {
     if (isMobile) return;
 
@@ -94,12 +100,27 @@ export default function Home() {
     if (s >= 6) return { mood: "energický", genre: "Electro/Pop" };
     if (s >= 2) return { mood: "pozitivní", genre: "Indie/Rock" };
     if (s >= -1) return { mood: "klidný", genre: "Lo-fi/Chillstep" };
-    if (s >= -5) return { mood: "smutný", genre: language === "cs" ? "Akustické balady" : "Acoustic ballads" };
-    return { mood: "melancholický", genre: language === "cs" ? "Instrumentální klavír" : "Instrumental piano" };
+    if (s >= -5)
+      return {
+        mood: "smutný",
+        genre: language === "cs" ? "Akustické balady" : "Acoustic ballads",
+      };
+    return {
+      mood: "melancholický",
+      genre: language === "cs" ? "Instrumentální klavír" : "Instrumental piano",
+    };
   };
 
   return (
     <>
+      <a
+        href="https://dejny.eu"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed top-5 left-6 z-[60] text-white/80 hover:text-white font-semibold tracking-wide text-lg transition-all duration-200"
+      >
+        dejny.eu
+      </a>
       {/* Fullscreen loading video (desktop only) */}
       <AnimatePresence>
         {!videoDone && !isMobile && (
@@ -170,13 +191,17 @@ export default function Home() {
                 <div
                   className={clsx(
                     "relative z-10 rounded-xl p-6 backdrop-blur-md shadow-xl",
-                    darkMode ? "bg-white/10 text-white" : "bg-white/70 text-black"
+                    darkMode
+                      ? "bg-white/10 text-white"
+                      : "bg-white/70 text-black"
                   )}
                 >
                   {!result ? (
                     <>
                       <button
-                        onClick={() => setLanguage(language === "cs" ? "en" : "cs")}
+                        onClick={() =>
+                          setLanguage(language === "cs" ? "en" : "cs")
+                        }
                         className="rounded-full absolute top-5 left-6 cursor-pointer hover:scale-125 duration-100 text-lg"
                       >
                         {language === "cs" ? "🇨🇿" : "🇬🇧"}
@@ -189,7 +214,9 @@ export default function Home() {
                       </button>
 
                       <h1 className="text-2xl font-semibold mb-4">Moodify</h1>
-                      <p className="text-lg mb-6">{questions[current][language]}</p>
+                      <p className="text-lg mb-6">
+                        {questions[current][language]}
+                      </p>
                       <div className="flex justify-center gap-4">
                         <motion.button
                           whileHover={{ scale: 1.05 }}
@@ -197,19 +224,27 @@ export default function Home() {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -20 }}
-                          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 200,
+                            damping: 15,
+                          }}
                           onClick={() => handleAnswer(true)}
                           className="cursor-pointer px-6 py-2 rounded-full bg-gradient-to-tl from-purple-500 via-blue-800 to-cyan-400 hover:text-black hover:from-white hover:to-white hover:via-white text-white font-semibold"
                         >
                           {language === "cs" ? "Ano" : "Yes"}
                         </motion.button>
-                       <motion.button
+                        <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -20 }}
-                          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 200,
+                            damping: 15,
+                          }}
                           onClick={() => handleAnswer(false)}
                           className="cursor-pointer px-6 py-2 rounded-full bg-black hover:bg-white hover:text-black text-white font-semibold"
                         >
@@ -220,7 +255,9 @@ export default function Home() {
                         <div
                           className="bg-blue-400 h-2 rounded transition-all duration-300"
                           style={{
-                            width: `${((current + 1) / questions.length) * 100}%`,
+                            width: `${
+                              ((current + 1) / questions.length) * 100
+                            }%`,
                           }}
                         />
                       </div>
@@ -231,7 +268,9 @@ export default function Home() {
                   ) : (
                     <>
                       <h2 className="text-2xl font-bold mb-2">
-                        {language === "cs" ? `Tvoje nálada je:` : `Your mood is:`}{" "}
+                        {language === "cs"
+                          ? `Tvoje nálada je:`
+                          : `Your mood is:`}{" "}
                         <span className="uppercase">
                           {language === "cs"
                             ? result.mood
@@ -245,7 +284,9 @@ export default function Home() {
                         </span>
                       </h2>
                       <p className="text-lg mb-4">
-                        {language === "cs" ? `Doporučený žánr:` : `Recommended genre:`}{" "}
+                        {language === "cs"
+                          ? `Doporučený žánr:`
+                          : `Recommended genre:`}{" "}
                         <b>🎧 {result.genre}</b>
                       </p>
                     </>
@@ -258,7 +299,11 @@ export default function Home() {
                     setScore(0);
                     setResult(null);
                   }}
-                  whileHover={{ scale: 1.05, backgroundColor: "#ffffff", color: "#000000" }}
+                  whileHover={{
+                    scale: 1.05,
+                    backgroundColor: "#ffffff",
+                    color: "#000000",
+                  }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -268,7 +313,6 @@ export default function Home() {
                 >
                   Restart
                 </motion.button>
-
               </div>
             </motion.div>
           </AnimatePresence>
