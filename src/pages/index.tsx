@@ -318,6 +318,50 @@ export default function Home() {
           </AnimatePresence>
         </div>
       </main>
+
+      <section
+        className={clsx(
+          "px-4 py-16 transition-colors duration-500",
+          darkMode ? "bg-gray-900 text-white/85" : "bg-[#f4efff] text-gray-800"
+        )}
+      >
+        <div className="mx-auto max-w-2xl space-y-4 text-left leading-relaxed">
+          <h2 className="text-2xl font-semibold">What is Moodify?</h2>
+          <p>
+            Moodify is a small music app that picks songs for the mood you are in right now. Instead of scrolling
+            through endless playlists, you answer seven quick yes/no questions: whether you feel energetic, want to
+            relax, feel like dancing, feel sad or motivated, crave some calm, or are in a positive mood today. Every
+            answer moves your mood score up or down.
+          </p>
+          <p>
+            When you finish, Moodify tells you your mood (energetic, positive, calm, sad or melancholic) and recommends
+            a genre that fits it, from Electro and Pop through Indie and Rock to Lo-fi, acoustic ballads or instrumental
+            piano. Below the result you get a list of song recommendations from Spotify, so you can start listening
+            straight away.
+          </p>
+          <h3 className="pt-2 text-lg font-semibold">How to use it</h3>
+          <p>
+            Switch between English and Czech with the flag button, choose a light or dark look with the sun and moon
+            button, and hit Restart whenever your mood changes. Moodify is free, works in any modern browser on phone
+            or desktop and does not need an account or login.
+          </p>
+        </div>
+      </section>
+
+      <footer
+        className={clsx(
+          "px-4 py-8 text-sm",
+          darkMode ? "bg-gray-950 text-white/70" : "bg-white text-gray-600"
+        )}
+      >
+        <nav className="mx-auto flex max-w-2xl flex-wrap gap-x-6 gap-y-2">
+          <span>Made by <a className="underline" href="https://dejny.eu">Dejny</a></span>
+          <a className="underline" href="https://hearme.dejny.eu">HearMe</a>
+          <a className="underline" href="https://dejnyo.dejny.eu">DejnyO</a>
+          <a className="underline" href="https://wordly.dejny.eu">Wordly</a>
+          <a className="underline" href="https://github.com/Dejnyyy/Moodify">Source on GitHub</a>
+        </nav>
+      </footer>
     </>
   );
 }
